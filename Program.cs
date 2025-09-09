@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using DesafioProjetoHospedagem.Models;
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR");
 
 Console.OutputEncoding = Encoding.UTF8;
 
@@ -16,10 +19,14 @@ hospedes.Add(p2);
 Suite suite = new Suite(tipoSuite: "Premium", capacidade: 2, valorDiaria: 30);
 
 // Cria uma nova reserva, passando a suíte e os hóspedes
-Reserva reserva = new Reserva(diasReservados: 12);
+Reserva reserva = new Reserva(diasReservados: 15);
 reserva.CadastrarSuite(suite);
 reserva.CadastrarHospedes(hospedes);
 
 // Exibe a quantidade de hóspedes e o valor da diária
+// Modificação de mdlpontual: mostrar o valor do desconto com ajdua de uma tupla
+var (valor, valorDoDesconto) = reserva.CalcularValorDiaria();
+
 Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
-Console.WriteLine($"Valor diária: {reserva.CalcularValorDiaria()}");
+Console.WriteLine($"Valor diária: {valor:C}");
+Console.WriteLine($"Valor do desconto: {valorDoDesconto:C}");

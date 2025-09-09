@@ -40,17 +40,23 @@ namespace DesafioProjetoHospedagem.Models
             return Hospedes.Count();
         }
 
-        public decimal CalcularValorDiaria()
+        // Modificação mdlpontual: alterei o retorno para uma tupla, permitindo retornar duas variáveis — o valor e o valor do desconto.
+        public (decimal valor, decimal valorDoDesconto) CalcularValorDiaria()
         {
             // TODO: Retorna o valor da diária
-            // Cálculo: DiasReservados X Suite.ValorDiaria
             decimal valor = DiasReservados * Suite.ValorDiaria;
 
             // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
-            decimal valorComDesconto = valor - (DiasReservados * Suite.ValorDiaria * 10 / 100);
+            decimal valorDoDesconto = valor * 10 / 100;
 
-            return DiasReservados >= 10 ? valorComDesconto : valor;
-            
+            // mdlpontual: Usei ternários aqui com a intenção de praticar, mesmo que um if/else fosse mais adequado.
+            valor = DiasReservados >= 10 ? valor - valorDoDesconto : valor;
+            valorDoDesconto = DiasReservados < 10 ? valorDoDesconto = 0 : valorDoDesconto;
+
+            (decimal valor, decimal valorDoDesconto) tupla = (valor, valorDoDesconto);
+
+            return tupla;
+
         }
     }
 }
